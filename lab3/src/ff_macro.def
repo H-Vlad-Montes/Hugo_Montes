@@ -1,0 +1,16 @@
+`define FF_D(clk, myedge="negedge", rst, d, q)\
+generate case(``myedge)\
+   "posedge": begin: gen_ff_rst_pos\
+      always_ff@(posedge ``clk or posedge ``rst) begin: ff_rst_pos\
+      if (``rst)\
+         ``q<= '0;\
+      else ``q <= ``d;\
+   end\
+   "negedge": begin: gen_ff_rst_neg\
+      always_ff@(posedge ``clk, negedge ``rst) begin: ff_rst_neg\
+         if (!``rst)\
+            ``q <= '0;\
+         else ``q <= ``d;\
+      end\
+   end\
+endcase endgenerate

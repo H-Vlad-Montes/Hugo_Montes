@@ -1,0 +1,20 @@
+`define severity_task(myedge="fatal",finish_number)\
+generate case(``myedge)\
+	"fatal": begin\
+	if(``finish_number == 0)\
+	$fatal("Esto es un error fatla con finish_number 0");\
+	if(``finish_number == 1)\
+	$fatal("Esto es un error fatla con finish_number 1");\
+	if(``finish_number == 2)\
+	$fatal("Esto es un error fatla con finish_number 2");\
+	end\
+	"error":begin\
+	$error("ERROR");\
+	end\
+	"warning":begin\
+	$warning("WARNING");\	
+	end\
+	"info":begin\
+	$info("INFO");\
+	end\
+endcase endgenerate
