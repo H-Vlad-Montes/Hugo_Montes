@@ -5,57 +5,13 @@
 module tb_flipflop();
 	 parameter WIDTH = 4;
 // Inputs
+input bit      cclk;
+input bit      rst_n;
+input logic    [0:WIDTH-1] d;
+output logic   q;
+input logic finish_number
 
-    task check_ff;
-    input data, clock, reset, out;
-    logic [WIDTH-1:0] data;
-    logic clock, reset;
-    logic [WIDTH-1:0] q_gold;
-    logic [WIDTH-1:0] out;
-
-begin // compare to value
-
-	`ifdef pos_clr
-	begin
-	if(reset)
-	q_gold = 4'b0;
-	else q_gold = data;
-	end
-		`ifdef fatal 
-		if(q_gold != out)
-		$fatal($time);
-			`elsif warning 
-			if(q_gold != out)
-			$warning($time);
-			elsif error
-			if(q_gold != out)
-			$error($time);
-		`else 
-		if(q_gold != out)
-		$info($time, "error");
-		endif
-	 else
-	begin
-	if(!reset)
-	q_gold = 4'b0;
-	else q_gold = data;
-	end
-		`ifdef fatal 
-		if(q_gold != out)
-		$fatal($time);
-			`elsif warning 
-			if(q_gold != out)
-			$warning($time);
-			`elsif error 
-			if(q_gold != out)
-			$error($time);
-		`else 
-		if(q_gold != out)
-		$info($time, "error");
-	`endif 
-`endif 
-end
-endtask
+ff_d(.cclk(cclk), "negedge", .rst_n(rst_n), .d(d), .q(q), .finish_number(finish_number));
 
 initial begin
 //values
@@ -69,7 +25,5 @@ clk <= 0;
 #15 d <= 4'b0111;
 #10 reset <= 0;
 #15 d <= 4'b0011;
-end
-endmodule
-			
+end			
 endmodule
